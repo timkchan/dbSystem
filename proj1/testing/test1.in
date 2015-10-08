@@ -1,0 +1,22 @@
+load students;
+load enrolled;
+load schedule;
+/* What are the names and SIDS of all students whose last name
+     is 'Chan'? */
+select SID, Firstname from students
+     where Lastname = 'Chan';
+/* Who took the course with CCN 21001, and what were their grades? */
+select Firstname, Lastname, Grade
+         from students, enrolled 
+   where CCN = '21001' and students.SID = enrolled.SID;
+/* Who has taken the course named 61A from EECS? */
+/* First, create a table that contains SIDs and course names */
+create table enrolled2 as
+  select SID
+     from enrolled, schedule 
+     where Dept = 'EECS' and Num = '61A' and enrolled.CCN = schedule.CCN;
+/* Now print the names of the students in this list */
+select Firstname, Lastname from students, enrolled2
+       where students.SID = enrolled2.SID;
+quit;
+

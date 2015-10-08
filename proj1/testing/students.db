@@ -1,0 +1,7 @@
+SID,Lastname,Firstname,SemEnter,YearEnter,Major
+101,Knowles,Jason,F,2003,EECS
+102,Chan,Valerie,S,2003,Math
+103,Xavier,Jonathan,S,2004,LSUnd
+104,Armstrong,Thomas,F,2003,EECS
+105,Brown,Shana,S,2004,EECS
+106,Chan,Yangfan,F,2003,LSUnd

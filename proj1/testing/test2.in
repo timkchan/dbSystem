@@ -1,0 +1,28 @@
+load students; load enrolled; load schedule;
+
+/* Add a new course to the schedule. */
+insert into schedule values '22100', '111', 'Math', '10-11:30TTh', '60 Evans',
+			    'S', '2004';
+/* Have a student add the new course. */
+insert into enrolled values '102', '22100', 'B+';
+
+/* Print that student's courses for the spring. */
+select Num, Dept, Time, Room from schedule, enrolled where 
+	SID = '102' and Sem = 'S' and Year = '2004'
+        and schedule.CCN = enrolled.CCN;
+
+/* Delete a student */
+
+create table enrolled as select SID, CCN, Grade from enrolled
+       where SID != '103';
+
+create table students 
+   as select SID, Lastname, Firstname, SemEnter, YearEnter, Major 
+      from students where SID != '103';
+
+/* And print the SIDs of those remaining. */
+select SID from enrolled;
+
+select SID from students;
+
+quit;
