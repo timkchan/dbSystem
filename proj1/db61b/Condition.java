@@ -44,7 +44,7 @@ class Condition {
 
     /** Return true iff all CONDITIONS are satified. */
     static boolean test(List<Condition> conditions) {
-        return true; // REPLACE WITH SOLUTION        
+        return true; // REPLACE WITH SOLUTION
     }
 
     // ADD ADDITIONAL FIELDS HERE

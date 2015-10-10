@@ -1,10 +1,3 @@
-// This is a SUGGESTED skeleton for a class that describes a single Row of a
-// Table. You can throw this away if you want, but it is a good idea to try to
-// understand it first.  Our solution changes or adds about 10 lines in this
-// skeleton.
-
-// Comments that start with "//" are intended to be removed from your
-// solutions.
 package db61b;
 
 import java.util.List;
@@ -13,7 +6,7 @@ import static db61b.Utils.*;
 
 /** A Column accesses a specific, named column in a TableIterator, which in
  *  turn is an object that iterates through the rows of a Table.
- *  @author
+ *  @author P. N. Hilfinger
 */
 class Column {
 
@@ -28,17 +21,6 @@ class Column {
         if (_table != null && _table.columnIndex(name) == -1) {
             throw error("%s is not a column in %s", name, table.name());
         }
-        _value = null;
-    }
-
-    /** A degenerate, anonymous, resolved Column whose get() method always
-     *  returns VALUE.  This is useful for representing literals.  VALUE
-     *  must not be null. */
-    Column(String value) {
-        assert value != null;
-        _columnName = null;
-        _table = null;
-        _value = value;
     }
 
     /** Return my name. */
@@ -51,9 +33,6 @@ class Column {
      *  TableIterator with a column having my name.  Otherwise, my
      *  Table must be the table of one of ITERATORS. */
     void resolve(List<TableIterator> iterators) {
-        if (_value != null) {
-            return;
-        }
         if (_table == null) {
             _index = -1;
             for (TableIterator it : iterators) {
@@ -84,9 +63,6 @@ class Column {
     /** Return my column value from the current row of my
      *  TableIterator.  This Column must be resolved. */
     String value() {
-        if (_value != null) {
-            return _value;
-        }
         assert _rowSource != null;
         return _rowSource.value(_index);
     }
@@ -99,6 +75,4 @@ class Column {
     private Table _table;
     /** Source for rows of the table. */
     private TableIterator _rowSource;
-    /** If non-null, the (fixed) value of this Column. */
-    private String _value;
 }

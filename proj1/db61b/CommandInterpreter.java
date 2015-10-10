@@ -172,7 +172,7 @@ class CommandInterpreter {
         String name = name();
         Table table = tableDefinition(name);
         // FILL THIS IN
-        _input.next(";");        
+        _input.next(";");
     }
 
     /** Parse and execute an exit or quit statement. Actually does nothing
