@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,14 +21,23 @@ import java.util.List;
 import static db61b.Utils.*;
 
 /** A single table in a database.
- *  @author
+ *  @author Tim Chan
  */
 class Table implements Iterable<Row> {
     /** A new Table named NAME whose columns are give by COLUMNTITLES,
      *  which must be distinct (else exception thrown). */
     Table(String name, String[] columnTitles) {
-        _name = name;
-        // FILL IN
+    	
+		for (int i = 0; i < columnTitles.length; i++) {
+			for (int j = i+1; j < columnTitles.length; j++){
+	    	    if (i != j && columnTitles[i] == columnTitles[j]) {
+	    	    	throw new DBException("Non-distinct Field Name.");
+				}
+			}
+		}
+		
+	   _name = name;
+	   _titles = columnTitles;
     }
 
     /** A new Table named NAME whose column names are give by COLUMNTITLES. */
@@ -50,10 +60,10 @@ class Table implements Iterable<Row> {
         return new TableIterator(this);
     }
 
-    /** Returns an iterator that returns my rows in an unspecfied order. */
+    /** Returns an iterator that returns my rows in an unspecified order. */
     @Override
     public Iterator<Row> iterator() {
-        return null;  // REPLACE WITH SOLUTION
+        return _rows.iterator();
     }
 
     /** Return the title of the Kth column.  Requires 0 <= K < columns(). */
@@ -64,18 +74,30 @@ class Table implements Iterable<Row> {
     /** Return the number of the column whose title is TITLE, or -1 if
      *  there isn't one. */
     int columnIndex(String title) {
-        return -1;  // REPLACE WITH SOLUTION
+    	int result = 0;
+    	for(String ttl : _titles) {
+    		if(ttl.equals(title)) {
+    			return result;
+    		}
+    		result++;
+    	}
+        return -1;
     }
 
     /** Return the number of Rows in this table. */
     int size() {
-        return 0;  // REPLACE WITH SOLUTION
+        return _rows.size();
     }
 
     /** Add ROW to THIS if no equal row already exists.  Return true if anything
      *  was added, false otherwise. */
     boolean add(Row row) {
-        return false;  // REPLACE WITH SOLUTION
+    	for(Row r : _rows) {
+    		if(r.equals(row)) {
+    			return false;
+    		}
+    	}
+        return _rows.add(row);
     }
 
     /** Read the contents of the file NAME.db, and return as a Table.
@@ -131,13 +153,19 @@ class Table implements Iterable<Row> {
     /** Print my contents on the standard output, separated by spaces
      *  and indented by two spaces. */
     void print() {
-        // FILL IN
+        for(Row r : _rows) {
+        	System.out.println(r.toString_2());
+        }
     }
+    
+    
 
     /** My name. */
     private final String _name;
     /** My column titles. */
     private String[] _titles;
+    /** List of Rows. */
+    private ArrayList<Row> _rows = new ArrayList<Row>();
     // OTHER FIELDS MIGHT GO HERE
 }
 

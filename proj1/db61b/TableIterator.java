@@ -6,7 +6,7 @@ import java.util.Iterator;
  *  usual Java Iterator interface, a TableIterator acts more like a C++
  *  STL iterator: at any given time, there is a notion of the current
  *  Row and a separate method to proceed to the next.
- *  @author
+ *  @author Tim Chan
  */
 class TableIterator {
 

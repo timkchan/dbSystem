@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /** A single row of a database.
- *  @author
+ *  @author Tim Chan
  */
 class Row {
     /** A Row whose column values are DATA.  The array DATA must not be altered
@@ -23,13 +23,23 @@ class Row {
     /** Return a Row formed from the current values of COLUMNS (in order).
      *  COLUMNS must all have been resolved to non-empty TableIterators. */
     static Row make(List<Column> columns) {
-        return null;  // REPLACE WITH SOLUTION
+    	int columnSize = columns.size();
+    	String[] result = new String[columnSize];
+    	for(int i = 0; i < columnSize; i++) {
+    		result[i] = columns.get(i).value();
+    	}
+        return new Row(result);
     }
 
     /** A Row whose column values are extracted by COLUMNS from ROWS (see
      *  {@link db61b.Column#Column}). */
     Row(List<Column> columns) {
-        // REPLACE WITH SOLUTION
+    	int columnSize = columns.size();
+    	String[] result = new String[columnSize];
+    	for(int i = 0; i < columnSize; i++) {
+    		result[i] = columns.get(i).value();
+    	}
+    	_data = result;
     }
 
     /** Return my number of columns. */
@@ -41,7 +51,16 @@ class Row {
     String get(int k) {
         return _data[k];
     }
-
+    
+    /** Print method for Row, built upon toString */   
+	public String toString_2() {
+    	String result = Arrays.toString(_data);
+    	if(_data.length == 0) {
+    		return "";
+    	}
+		return result.substring(1, result.length()-1).replaceAll(",", "");
+    }
+    
     @Override
     public boolean equals(Object obj) {
         try {

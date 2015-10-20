@@ -20,7 +20,7 @@ import static db61b.Tokenizer.*;
 
 /** An object that reads and interprets a sequence of commands from an
  *  input source.
- *  @author */
+ *  @author Tim Chan*/
 class CommandInterpreter {
 
     /* STRATEGY.
