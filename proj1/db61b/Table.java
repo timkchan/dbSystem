@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 import static db61b.Utils.*;
 
@@ -114,7 +115,14 @@ class Table implements Iterable<Row> {
                 throw error("missing header in DB file");
             }
             String[] columnNames = header.split(",");
-            // FILL IN
+            table = new Table(name, columnNames);
+            
+            String rowToBe;
+            String[] row;
+            while((rowToBe = input.readLine()) != null) {
+            	row = rowToBe.split(",");
+            	table.add(new Row(row));
+            }
         } catch (FileNotFoundException e) {
             throw error("could not find %s.db", name);
         } catch (IOException e) {
@@ -140,7 +148,13 @@ class Table implements Iterable<Row> {
             String sep;
             sep = "";
             output = new PrintStream(name + ".db");
-            // FILL IN
+            
+            Row title = new Row(_titles);
+            output.println(title.toCommaString());
+            
+            for(Row r : this) {
+            	output.println(r.toCommaString());
+            }
         } catch (IOException e) {
             throw error("trouble writing to %s.db", name);
         } finally {
@@ -154,7 +168,7 @@ class Table implements Iterable<Row> {
      *  and indented by two spaces. */
     void print() {
         for(Row r : _rows) {
-        	System.out.println(r.toString_2());
+        	System.out.println("  " + r.toString());
         }
     }
     

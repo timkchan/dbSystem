@@ -10,7 +10,7 @@ package db61b;
 import java.util.List;
 
 /** Represents a single 'where' condition in a 'select' command.
- *  @author  */
+ *  @author Tim Chan */
 class Condition {
 
     /** Internally, we represent our relation as a 3-bit value whose
@@ -23,7 +23,30 @@ class Condition {
      *  are column designators. and RELATION is one of the
      *  strings "<", ">", "<=", ">=", "=", or "!=". */
     Condition(Column col1, String relation, Column col2) {
-        // YOUR CODE HERE
+        _col1 = col1;
+        _col2 = col2;
+        switch (relation) {
+        case "=":
+        	_rel = EQ;
+        	break;
+        case "<":
+            _rel = LT;
+            break;
+        case ">":
+        	_rel = GT;
+            break;
+        case "<=":
+        	_rel = LT + EQ;
+            break;
+        case ">=":
+        	_rel = GT + EQ;
+            break;
+        case "!=":
+        	_rel = 0;
+            break;
+        default:
+            throw new DBException("Unsupported relation");
+        }
     }
 
     /** A Condition representing COL1 RELATION 'VAL2', where COL1 is
@@ -39,13 +62,31 @@ class Condition {
      *  my columns are selected, returns the result of performing the test I
      *  denote. */
     boolean test() {
-        return false; // REPLACE WITH SOLUTION
+    	if(_col1.value().compareTo(_col2.value()) == 0) {
+    		return _rel == EQ || _rel == LT + EQ || _rel == GT + EQ;
+    	}else if (!_col1.value().equals(_col2.value())) {
+    		return _rel == 0;
+    	} else if (_col1.value().compareTo(_col2.value()) > 0) {
+    		return _rel == GT || _rel == GT + EQ;
+    	} else {
+    		return _rel == LT || _rel == LT + EQ;
+    	}
+
     }
 
     /** Return true iff all CONDITIONS are satified. */
     static boolean test(List<Condition> conditions) {
-        return true; // REPLACE WITH SOLUTION
+    	for(Condition c : conditions) {
+    		if(!c.test()) {
+    			return false;
+    		}
+    	}
+        return true;
     }
 
     // ADD ADDITIONAL FIELDS HERE
+    /** The operands of this condition. */
+    private Column _col1, _col2;
+    /** String describing the relation implemented by the condition. */
+    private int _rel;
 }

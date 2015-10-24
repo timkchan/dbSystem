@@ -18,7 +18,10 @@ class TableIterator {
 
     /** Reinitialize me to the first row. */
     void reset() {
-        // FILL THIS IN
+    	_rowIt = _table.iterator();
+    	if(_rowIt.hasNext()) {
+    		_row = _rowIt.next();
+    	}
     }
 
     /** Return the Table over which I am iterating. */
@@ -35,7 +38,11 @@ class TableIterator {
     /** Proceed to the next row.  Assumes that hasRow() is true.  Return
      *  the new value of hasRow(). */
     Row next() {
-        // FILL THIS IN
+    	if(_rowIt.hasNext()) {
+    		_row = _rowIt.next();
+    	} else {
+    		_row = null;
+    	}
         return _row;
     }
 
@@ -57,6 +64,8 @@ class TableIterator {
     private final Table _table;
     /** The current Row of my Table, or null if there are no more. */
     private Row _row;
+    /** Iterator to the Rows of the table. */
+    private Iterator<Row> _rowIt;
     // MORE FIELDS MAY GO HERE
 
 }

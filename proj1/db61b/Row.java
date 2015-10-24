@@ -52,13 +52,23 @@ class Row {
         return _data[k];
     }
     
-    /** Print method for Row, built upon toString */   
-	public String toString_2() {
+    /** Print Row (an array) into comma-ed String e.g.: 101,Knowles,Jason,F,2003,EECS */   
+	public String toCommaString() {
     	String result = Arrays.toString(_data);
     	if(_data.length == 0) {
     		return "";
     	}
-		return result.substring(1, result.length()-1).replaceAll(",", "");
+		return result.replaceAll("^\\[|\\]$", "").replaceAll(", ", ",");
+    }
+    
+    @Override
+    /** Print method for Row, built upon toString */   
+	public String toString() {
+    	String result = Arrays.toString(_data);
+    	if(_data.length == 0) {
+    		return "";
+    	}
+		return result.replaceAll("^\\[|\\]$", "").replaceAll(",", "");
     }
     
     @Override

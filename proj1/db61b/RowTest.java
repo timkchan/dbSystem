@@ -6,13 +6,13 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 /** Tests basics functionality including:
- *1. The Row class
+ *	The Row class
  * 
  * 
  * 
  */
 
-public class BasicTests {
+public class RowTest {
 	
 	/** testTable()
 	 * Test the constructor in the class Table.
@@ -69,7 +69,18 @@ public class BasicTests {
 		assertEquals(testTable.size(), 5);
 	}
 	
+	/** toCommaString()
+	 * Test if row toCommaString()
+	 */
+	@Test
+	public void testToCommaString() {
+		Row testRow = new Row(new String[]{"101", "Tim", "Chan", "S", "2049", "EECS"});
+		System.out.println(testRow.toCommaString());
+		assertEquals(testRow.toCommaString(), "101,Tim,Chan,S,2049,EECS");
+	}
+	
+	
 	public static void main(String[] args) {
-		System.exit(ucb.junit.textui.runClasses(BasicTests.class));
+		System.exit(ucb.junit.textui.runClasses(RowTest.class));
 	}
 }
