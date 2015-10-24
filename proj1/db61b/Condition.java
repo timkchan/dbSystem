@@ -62,15 +62,15 @@ class Condition {
      * columns are selected, returns the result of performing the test I denote.
      */
     boolean test() {
-        if (_col1.value().compareTo(_col2.value()) == 0) {
-            return _rel == EQ || _rel == LT + EQ || _rel == GT + EQ;
-        } else if (!_col1.value().equals(_col2.value())) {
-            return _rel == 0;
-        } else if (_col1.value().compareTo(_col2.value()) > 0) {
-            return _rel == GT || _rel == GT + EQ;
-        } else {
-            return _rel == LT || _rel == LT + EQ;
-        }
+        switch (_rel) {
+            case 0:  return !_col1.value().equals(_col2.value());
+            case 1:  return _col1.value().compareTo(_col2.value()) > 0;
+            case 2:  return _col1.value().compareTo(_col2.value()) == 0;
+            case 3:  return _col1.value().compareTo(_col2.value()) > 0 || _col1.value().compareTo(_col2.value()) == 0;
+            case 4:  return _col1.value().compareTo(_col2.value()) < 0;
+            case 7:  return _col1.value().compareTo(_col2.value()) < 0 || _col1.value().compareTo(_col2.value()) == 0;
+            default: throw new DBException("Unexpected operation.");
+    }
 
     }
 
