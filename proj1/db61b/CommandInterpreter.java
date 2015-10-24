@@ -182,7 +182,7 @@ class CommandInterpreter {
         while (_input.nextIf(",")) {
             values.add(literal());
         }
-        if(values.size() != table.numColumns()) {
+        if (values.size() != table.numColumns()) {
             throw new DBException("Row length mis-match.");
         }
         table.add(new Row(values.toArray(new String[values.size()])));
