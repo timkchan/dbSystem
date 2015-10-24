@@ -267,14 +267,13 @@ class CommandInterpreter {
             }
             _input.nextIf(",");
         }
-        for(int i = 0; i < titles.size(); i++){
-            for(int j = i + 1; j < titles.size(); j++) {
-                if(titles.get(i).equals(titles.get(j))) {
+        for (int i = 0; i < titles.size(); i++) {
+            for (int j = i + 1; j < titles.size(); j++) {
+                if (titles.get(i).equals(titles.get(j))) {
                     throw new DBException("Duplicate Column Names.");
                 }
             }
         }
-        
         table = new Table(tableName, titles);
 
         List<TableIterator> it = new ArrayList<TableIterator>();
