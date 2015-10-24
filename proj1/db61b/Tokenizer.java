@@ -8,35 +8,42 @@ import java.util.Scanner;
 
 import static db61b.Utils.*;
 
-/** Represents a stream of db61b tokens read from a given Scanner.
- *  @author P. N. Hilfinger. */
+/**
+ * Represents a stream of db61b tokens read from a given Scanner.
+ *
+ * @author P. N. Hilfinger.
+ */
 class Tokenizer {
 
-    /** Text of regular expressions that represent literals (possibly
-     *  unterminated), identifiers, and comments (possibly
-     *  unterminated). */
-    private static final String
-        LITERAL_TEXT = "'(?:[^,'\n\r]*)'?",
-        IDENTIFIER_TEXT = "[\\p{Alpha}_]\\w*",
-        COMMENT_TEXT = "(?:/\\*.*?\\*/|/\\*.*)";
-    /** Matches potential tokens, including valid or unterminated
-     *  literals, valid or unterminated comments, identifiers,
-     *  relation symbols (=, <, <=, >=, and !=), end-of-line
-     *  sequences, or other single characters.  The pattern matches a
-     *  prefix of any string. */
-    private static final Pattern
-        TOKEN_PATN = mkPatn("(?s)[<>!]?=|%s|%s|%s|\r?\n|\\S",
-                            LITERAL_TEXT, IDENTIFIER_TEXT, COMMENT_TEXT);
+    /**
+     * Text of regular expressions that represent literals (possibly
+     * unterminated), identifiers, and comments (possibly unterminated).
+     */
+    private static final String LITERAL_TEXT = "'(?:[^,'\n\r]*)'?",
+            IDENTIFIER_TEXT = "[\\p{Alpha}_]\\w*",
+            COMMENT_TEXT = "(?:/\\*.*?\\*/|/\\*.*)";
+    /**
+     * Matches potential tokens, including valid or unterminated literals, valid
+     * or unterminated comments, identifiers, relation symbols (=, <, <=, >=,
+     * and !=), end-of-line sequences, or other single characters. The pattern
+     * matches a prefix of any string.
+     */
+    private static final Pattern TOKEN_PATN =
+            mkPatn("(?s)[<>!]?=|%s|%s|%s|\r?\n|\\S", LITERAL_TEXT,
+            IDENTIFIER_TEXT, COMMENT_TEXT);
 
-    /** Patterns matching specific kinds of token.  These are intended
-     *  to be used with methods such as CommandInterpreter.name. */
-    static final Pattern
-        IDENTIFIER = mkPatn(IDENTIFIER_TEXT),
-        LITERAL = mkPatn("'.*"),
-        RELATION = mkPatn("[<>!]?=|[<>]");
+    /**
+     * Patterns matching specific kinds of token. These are intended to be used
+     * with methods such as CommandInterpreter.name.
+     */
+    static final Pattern IDENTIFIER = mkPatn(IDENTIFIER_TEXT),
+            LITERAL = mkPatn("'.*"),
+            RELATION = mkPatn("[<>!]?=|[<>]");
 
-    /** A Tokenizer that reads tokens from S, and prompts on PROMPTER,
-     *  if it is non-null. */
+    /**
+     * A Tokenizer that reads tokens from S, and prompts on PROMPTER, if it is
+     * non-null.
+     */
     Tokenizer(Scanner s, PrintStream prompter) {
         _input = s;
         _buffer = new ArrayList<>();
@@ -47,10 +54,11 @@ class Tokenizer {
         _mat = Pattern.compile(".").matcher("");
     }
 
-    /** Read the next potential token and add it to _buffer.  Filters
-     *  out comments and ends-of-line. Adds "*EOF*" at the end of input.
-     *  Throws DBException on encountering a lexical error (such as an
-     *  unterminated literal). */
+    /**
+     * Read the next potential token and add it to _buffer. Filters out comments
+     * and ends-of-line. Adds "*EOF*" at the end of input. Throws DBException on
+     * encountering a lexical error (such as an unterminated literal).
+     */
     private void readToken() {
         while (true) {
             prompt();
@@ -76,9 +84,10 @@ class Tokenizer {
         }
     }
 
-    /** Print an appropriate prompt, if there is a prompter: either ">"
-     *  when expecting the start of a new command, or "..."
-     *  otherwise. */
+    /**
+     * Print an appropriate prompt, if there is a prompter: either ">" when
+     * expecting the start of a new command, or "..." otherwise.
+     */
     private void prompt() {
         if (_shouldPrompt && _prompter != null) {
             if (_continued) {
@@ -91,8 +100,10 @@ class Tokenizer {
         }
     }
 
-    /** Read and return the next token, if it matches P.  Otherwise throw
-     *  DBException */
+    /**
+     * Read and return the next token, if it matches P. Otherwise throw
+     * DBException
+     */
     String next(Pattern p) {
         if (!nextIs(p)) {
             if (nextIs("*EOF*")) {
@@ -104,8 +115,10 @@ class Tokenizer {
         return next();
     }
 
-    /** Read and return the next token, if it equals P.  Otherwise throw
-     *  DBException */
+    /**
+     * Read and return the next token, if it equals P. Otherwise throw
+     * DBException
+     */
     String next(String p) {
         if (!nextIs(p)) {
             if (nextIs("*EOF*")) {
@@ -117,8 +130,10 @@ class Tokenizer {
         return next();
     }
 
-    /** Read the next token, if it matches P, and return true.  Otherwise
-     *  return false.  Still throws DBException on detecting lexical errors. */
+    /**
+     * Read the next token, if it matches P, and return true. Otherwise return
+     * false. Still throws DBException on detecting lexical errors.
+     */
     boolean nextIf(Pattern p) {
         if (nextIs(p)) {
             next();
@@ -127,8 +142,10 @@ class Tokenizer {
         return false;
     }
 
-    /** Read the next token, if it equals P, and return true.  Otherwise
-     *  return false.  Still throws DBException on detecting lexical errors. */
+    /**
+     * Read the next token, if it equals P, and return true. Otherwise return
+     * false. Still throws DBException on detecting lexical errors.
+     */
     boolean nextIf(String p) {
         if (nextIs(p)) {
             next();
@@ -137,16 +154,19 @@ class Tokenizer {
         return false;
     }
 
-
-    /** Return true iff the next token matches P.  Throws DBException on
-     *  encountering a lexical error. */
+    /**
+     * Return true iff the next token matches P. Throws DBException on
+     * encountering a lexical error.
+     */
     boolean nextIs(Pattern p) {
         String token = peek();
         return _mat.usePattern(p).reset(token).matches();
     }
 
-    /** Return true iff the next token equals P.  Throws DBException on
-     *  encountering a lexical error. */
+    /**
+     * Return true iff the next token equals P. Throws DBException on
+     * encountering a lexical error.
+     */
     boolean nextIs(String p) {
         String token = peek();
         return token.equals(p);
@@ -175,7 +195,7 @@ class Tokenizer {
     private Scanner _input;
     /** All tokens read since the last flush or beginning of input. */
     private ArrayList<String> _buffer;
-    /** Output for prompts.  Null if prompts not used. */
+    /** Output for prompts. Null if prompts not used. */
     private PrintStream _prompter;
     /** False iff the next token is expected to start a command. */
     private boolean _continued;

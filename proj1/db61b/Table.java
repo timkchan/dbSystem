@@ -1,10 +1,3 @@
-// This is a SUGGESTED skeleton for a class that describes a single Row of a
-// Table. You can throw this away if you want, but it is a good idea to try to
-// understand it first.  Our solution changes or adds about 10 lines in this
-// skeleton.
-
-// Comments that start with "//" are intended to be removed from your
-// solutions.
 package db61b;
 
 import java.io.BufferedReader;
@@ -13,32 +6,33 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 
 import static db61b.Utils.*;
 
-/** A single table in a database.
- *  @author Tim Chan
+/**
+ * A single table in a database.
+ *
+ * @author Tim Chan
  */
 class Table implements Iterable<Row> {
-    /** A new Table named NAME whose columns are give by COLUMNTITLES,
-     *  which must be distinct (else exception thrown). */
+    /**
+     * A new Table named NAME whose columns are give by COLUMNTITLES, which must
+     * be distinct (else exception thrown).
+     */
     Table(String name, String[] columnTitles) {
-    	
-		for (int i = 0; i < columnTitles.length; i++) {
-			for (int j = i+1; j < columnTitles.length; j++){
-	    	    if (i != j && columnTitles[i] == columnTitles[j]) {
-	    	    	throw new DBException("Non-distinct Field Name.");
-				}
-			}
-		}
-		
-	   _name = name;
-	   _titles = columnTitles;
+
+        for (int i = 0; i < columnTitles.length; i++) {
+            for (int j = i + 1; j < columnTitles.length; j++) {
+                if (i != j && columnTitles[i] == columnTitles[j]) {
+                    throw new DBException("Non-distinct Field Name.");
+                }
+            }
+        }
+
+        _name = name;
+        _titles = columnTitles;
     }
 
     /** A new Table named NAME whose column names are give by COLUMNTITLES. */
@@ -67,21 +61,23 @@ class Table implements Iterable<Row> {
         return _rows.iterator();
     }
 
-    /** Return the title of the Kth column.  Requires 0 <= K < columns(). */
+    /** Return the title of the Kth column. Requires 0 <= K < columns(). */
     String title(int k) {
         return _titles[k];
     }
 
-    /** Return the number of the column whose title is TITLE, or -1 if
-     *  there isn't one. */
+    /**
+     * Return the number of the column whose title is TITLE, or -1 if there
+     * isn't one.
+     */
     int columnIndex(String title) {
-    	int result = 0;
-    	for(String ttl : _titles) {
-    		if(ttl.equals(title)) {
-    			return result;
-    		}
-    		result++;
-    	}
+        int result = 0;
+        for (String ttl : _titles) {
+            if (ttl.equals(title)) {
+                return result;
+            }
+            result++;
+        }
         return -1;
     }
 
@@ -90,19 +86,23 @@ class Table implements Iterable<Row> {
         return _rows.size();
     }
 
-    /** Add ROW to THIS if no equal row already exists.  Return true if anything
-     *  was added, false otherwise. */
+    /**
+     * Add ROW to THIS if no equal row already exists. Return true if anything
+     * was added, false otherwise.
+     */
     boolean add(Row row) {
-    	for(Row r : _rows) {
-    		if(r.equals(row)) {
-    			return false;
-    		}
-    	}
+        for (Row r : _rows) {
+            if (r.equals(row)) {
+                return false;
+            }
+        }
         return _rows.add(row);
     }
 
-    /** Read the contents of the file NAME.db, and return as a Table.
-     *  Format errors in the .db file cause a DBException. */
+    /**
+     * Read the contents of the file NAME.db, and return as a Table. Format
+     * errors in the .db file cause a DBException.
+     */
     static Table readTable(String name) {
         BufferedReader input;
         Table table;
@@ -116,12 +116,12 @@ class Table implements Iterable<Row> {
             }
             String[] columnNames = header.split(",");
             table = new Table(name, columnNames);
-            
+
             String rowToBe;
             String[] row;
-            while((rowToBe = input.readLine()) != null) {
-            	row = rowToBe.split(",");
-            	table.add(new Row(row));
+            while ((rowToBe = input.readLine()) != null) {
+                row = rowToBe.split(",");
+                table.add(new Row(row));
             }
         } catch (FileNotFoundException e) {
             throw error("could not find %s.db", name);
@@ -139,8 +139,10 @@ class Table implements Iterable<Row> {
         return table;
     }
 
-    /** Write the contents of TABLE into the file NAME.db. Any I/O errors
-     *  cause a DBException. */
+    /**
+     * Write the contents of TABLE into the file NAME.db. Any I/O errors cause a
+     * DBException.
+     */
     void writeTable(String name) {
         PrintStream output;
         output = null;
@@ -148,12 +150,12 @@ class Table implements Iterable<Row> {
             String sep;
             sep = "";
             output = new PrintStream(name + ".db");
-            
+
             Row title = new Row(_titles);
             output.println(title.toCommaString());
-            
-            for(Row r : this) {
-            	output.println(r.toCommaString());
+
+            for (Row r : this) {
+                output.println(r.toCommaString());
             }
         } catch (IOException e) {
             throw error("trouble writing to %s.db", name);
@@ -164,15 +166,15 @@ class Table implements Iterable<Row> {
         }
     }
 
-    /** Print my contents on the standard output, separated by spaces
-     *  and indented by two spaces. */
+    /**
+     * Print my contents on the standard output, separated by spaces and
+     * indented by two spaces.
+     */
     void print() {
-        for(Row r : _rows) {
-        	System.out.println("  " + r.toString());
+        for (Row r : _rows) {
+            System.out.println("  " + r.toString());
         }
     }
-    
-    
 
     /** My name. */
     private final String _name;
@@ -180,6 +182,4 @@ class Table implements Iterable<Row> {
     private String[] _titles;
     /** List of Rows. */
     private ArrayList<Row> _rows = new ArrayList<Row>();
-    // OTHER FIELDS MIGHT GO HERE
 }
-
