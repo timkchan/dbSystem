@@ -1,0 +1,30 @@
+DB61B System.  Version 1.0
+Loaded students.db
+Loaded enrolled.db
+Loaded schedule.db
+Search results:
+  B 2003
+  A- 2003
+  A 2003
+  A 2004
+  B+ 2003
+  A- 2004
+  B+ 2004
+Search results:
+  A 2004
+  A- 2004
+  B+ 2004
+Search results:
+  102 1-2MWF 1 Pimentel A
+  102 1-2MWF 1 Pimentel A-
+  102 11-12MWF 155 Dwinelle A
+  102 9-10MWF 2301 Tolman B+
+Search results:
+  EECS B
+  EECS B+
+  EECS A-
+  EECS A
+Search results:
+  21232 2004 A-
+  21229 2003 A
+  21229 2003 B+

@@ -1,0 +1,17 @@
+load students;
+load enrolled;
+load schedule;
+
+select Grade, Year from schedule, enrolled where schedule.CCN = enrolled.CCN;
+
+select Grade, Year from schedule, enrolled where schedule.CCN = enrolled.CCN and Year > '2003';
+
+select SID, Time, Room, Grade from enrolled, schedule where enrolled.CCN = schedule.CCN and SID = '102';
+
+select Major, Grade from students, enrolled where students.SID = enrolled.SID and Major = 'EECS';
+
+select enrolled.CCN, Year, Grade from enrolled, schedule where enrolled.CCN = schedule.CCN and Num = '61B';
+
+
+quit;
+
