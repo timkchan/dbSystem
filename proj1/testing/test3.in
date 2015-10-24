@@ -12,6 +12,7 @@ select Major, Grade from students, enrolled where students.SID = enrolled.SID an
 
 select enrolled.CCN, Year, Grade from enrolled, schedule where enrolled.CCN = schedule.CCN and Num = '61B';
 
+select SID as id, CCN as id from students, schedule;
 
 quit;
 
