@@ -1,5 +1,5 @@
 # A Small Database System
-![]()
+![](demo.gif?raw=true)
 
 ### 1. Introduction
 
